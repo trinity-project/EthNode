@@ -22,7 +22,7 @@ def compare_block_number():
             infura_block_number = infura_w3.eth.blockNumber
             local_block_number = local_w3.eth.blockNumber
             logger.info("local_block_number:{},infura_block_number:{}".format(local_block_number, infura_block_number))
-            if infura_block_number - local_block_number >= 10:
+            if infura_block_number - local_block_number >= 30:
                 execute_shell_command("supervisorctl restart geth")
                 logger.warning("restart geth")
         except:
