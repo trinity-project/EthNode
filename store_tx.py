@@ -8,7 +8,7 @@ import requests
 from config import setting
 
 from project_log import setup_mylogger
-from plugin.redis_client import  redis_client
+# from plugin.redis_client import  redis_client
 logger=setup_mylogger(logfile="log/store_tx.log")
 
 
