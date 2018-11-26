@@ -22,8 +22,9 @@ class SettingHolder(object):
         self.PASSWORD_HASH = "$2b$10$F7GVmj.eahbHMIUjOxooYuLBMqZaIGcJZ7KxufGfbxwGTErKCzNQm"
         self.REMOTE_ADDR = ENVIRON.get("REMOTE_ADDRESS")
 
-        self.REDIS_HOST = "47.254.64.251"
+        self.REDIS_HOST = "appserver.trinity.ink"
         self.REDIS_PORT = 6379
+        self.REDIS_PASSWORD = ENVIRON.get("REDIS_PASSWORD")
 
         self.MONGO_URI = ENVIRON.get("MONGO_URI")
 
