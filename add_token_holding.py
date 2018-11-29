@@ -134,7 +134,7 @@ if __name__ == '__main__':
     # tokens = tokens_list[500:]
     # for tokens in [list_1,list_2,list_3]:
     # tokens = ["0x86e4dc25259ee2191cd8ae40e1865b9f0319646c"]
-    local_block_height = 1000000
+    local_block_height = 3000000
     current_block_number = mongo_client.get_current_block_number()
     while True:
         # current_block_number = mongo_client.get_current_block_number()

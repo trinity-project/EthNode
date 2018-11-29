@@ -236,7 +236,7 @@ def token_swap(addressTo,value):
     value=Decimal(str(value))*(10**8)
     privt_key=setting.PRIVTKEY
     record_instance = mongo_client.get_address_nouce(setting.FUNDING_ADDRESS)
-    nouce = record_instance.get("nouce")
+    nouce = int(record_instance.get("nouce"))
     tx_id= eth_client.token_swap(nouce, addressTo, value,privt_key)
     if tx_id:
         nouce += 1
