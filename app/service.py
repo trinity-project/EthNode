@@ -85,8 +85,8 @@ def get_token_holding(address):
 
     for task,asset_info in zip(task_result,asset_list):
         balance = task.value
-        if balance == 0:
-            continue
+        # if balance == 0:
+        #     continue
         asset_info["balance"] = balance
         if asset_info.get("tokenIcon"):
             res.appendleft(asset_info)
