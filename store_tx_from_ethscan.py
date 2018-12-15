@@ -12,7 +12,12 @@ from project_log import setup_mylogger
 logger=setup_mylogger(logfile="log/store_transfer_tx_from_ethscan.log")
 
 
-
+def md5_for_transfer_record(tx_id,address_from,address_to,value,contract):
+    import hashlib
+    src = "{}{}{}{}{}".format(tx_id,address_from,address_to,value,contract).encode()
+    m1 = hashlib.md5()
+    m1.update(src)
+    return m1.hexdigest()
 
 
 
@@ -24,6 +29,7 @@ class MongodbEth(object):
         self.db.TransferRecord.create_index([("addressTo", 1)])
         self.db.TransferRecord.create_index([("asset", 1)])
         self.db.TransferRecord.create_index([("txId", 1)])
+        self.db.TransferRecord.create_index([("txMd5", 1)],unique=True)
 
     def get_address(self):
         return self.db.AddressForTransferRecord.find_one({"has_query":0})
@@ -82,7 +88,8 @@ while True:
 
             if not tmp_dict.get("addressTo"):
                 continue
-
+            tmp_dict["txMd5"]= md5_for_transfer_record(tmp_dict["txId"],tmp_dict["addressFrom"],
+                                                       tmp_dict["addressTo"],tmp_dict["value"],tmp_dict["asset"])
             mongo_client.insert_transfer_record(tmp_dict)
 
 
