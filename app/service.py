@@ -212,7 +212,7 @@ def get_token_info(queryWord):
     return [
         {
             "tokenAddress":q.get("address"),
-            "tokenDecimal":"{not detected}" if q.get("decimals") is None else str(q.get("decimals")),
+            "tokenDecimal":"0" if q.get("decimals") is None else str(q.get("decimals")),
             "tokenIcon":q.get("icon"),
             "tokenName":q.get("name"),
             "tokenSynbol":q.get("symbol"),
