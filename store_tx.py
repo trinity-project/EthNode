@@ -8,7 +8,6 @@ import requests
 from config import setting
 
 from project_log import setup_mylogger
-# from plugin.redis_client import  redis_client
 logger=setup_mylogger(logfile="log/store_tx.log")
 
 
@@ -43,7 +42,8 @@ class MongodbEth(object):
         except Exception as e:
             logger.info(e)
 
-
+    def get_current_block_number(self):
+        return self.db.BookmarkForToken.find_one().get("height")
 
 def get_tx_receipt(txId):
 
@@ -56,9 +56,14 @@ def get_tx_receipt(txId):
 
     try:
         res = requests.post(setting.ETH_URL,json=data).json()
-        return res["result"]
+        result = res["result"]
+        if result:
+            return result
+        time.sleep(14)
+        return get_tx_receipt(txId)
     except:
-        return None
+        time.sleep(3)
+        return get_tx_receipt(txId)
 
 
 def getblock(blockNumber):
@@ -90,8 +95,10 @@ else:
 
 
 while True:
-    logger.info(block_height)
     block_info=getblock(hex(int(block_height)))
+    current_block_number = mongo_client.get_current_block_number()
+    logger.info("local_block_number:{},current_block_number:{}".format(block_height, current_block_number))
+
     if not block_info:
         time.sleep(15)
         continue
@@ -146,22 +153,7 @@ while True:
 
                             mongo_client.insert_transfer_record(tmp_dict)
 
-                            # if exist_address_to:
-                            # try:
-                            #     redis_client.publish("monitor",
-                            #                          json.dumps(
-                            #                              {
-                            #                                  "playload": tmp_dict["addressTo"],
-                            #                                  "messageType": "monitorEthAddress",
-                            #                                  "addressFrom":address_from,
-                            #                                  "addressTo":tmp_dict["addressTo"],
-                            #                                  "assetId":address_to,
-                            #                                  "value":tmp_dict["value"],
-                            #                                  "txId":tx_id
-                            #                              }))
-                            #
-                            # except:
-                            #     logger.error("connect redis fail")
+
                     except Exception as e:
                         logger.exception(e)
 
