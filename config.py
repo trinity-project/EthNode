@@ -10,7 +10,8 @@ class SettingHolder(object):
 
     def setup_mainnet(self):
         # self.ETH_URL = "https://mainnet.infura.io/pZc5ZTRYM8wYfRPtoQal"
-        self.ETH_URL = "http://127.0.0.1:8545"
+        # self.ETH_URL = "http://127.0.0.1:8545"
+        self.ETH_URL = "http://47.91.249.76:8545"
         self.ETHSCAN_API_PREFIX = "https://api.etherscan.io/api?"
 
 
