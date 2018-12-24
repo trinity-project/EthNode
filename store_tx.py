@@ -77,9 +77,14 @@ def getblock(blockNumber):
 
     try:
         res = requests.post(setting.ETH_URL,json=data).json()
-        return res["result"]
+        result = res["result"]
+        if result:
+            return result
+        time.sleep(14)
+        return getblock(blockNumber)
     except:
-        return None
+        time.sleep(3)
+        return getblock(blockNumber)
 
 mongo_client=MongodbEth()
 
@@ -95,10 +100,10 @@ else:
 
 
 while True:
-    block_info=getblock(hex(int(block_height)))
     current_block_number = mongo_client.get_current_block_number()
     logger.info("local_block_number:{},current_block_number:{}".format(block_height, current_block_number))
 
+    block_info=getblock(hex(int(block_height)))
     if not block_info:
         time.sleep(15)
         continue
