@@ -135,12 +135,17 @@ def get_transaction_by_address(address,asset,page):
         app_logger.error(e)
 
     txs=[tx for tx in  mongo_client.get_transfer_records(address,asset,page)]
+    new_txs = []
+    for tx in txs:
+        if tx["txReceiptStatus"] == "0":
+            tx["txReceiptStatus"] = "-1"
+        new_txs.append(tx)
 
     if page != 1:
-        return txs
+        return new_txs
     else:
-        if txs:
-            return txs
+        if new_txs:
+            return new_txs
     my_account = Account(address=address,
                          api_key=setting.API_KEY)
     my_account.PREFIX = setting.ETHSCAN_API_PREFIX
@@ -168,7 +173,7 @@ def get_transaction_by_address(address,asset,page):
                 tmp_dict["blockNumber"] = r.get("blockNumber")
                 tmp_dict["blockTime"] = r.get("timeStamp")
                 tmp_dict["asset"] = r.get("to")
-                tmp_dict["txReceiptStatus"] = r.get("txreceipt_status")
+                tmp_dict["txReceiptStatus"] = r.get("txreceipt_status") if r.get("txreceipt_status")!="0" else "-1"
                 tmp_list_contract.append(tmp_dict)
 
             if input_data == "0x" and asset == "0x00000000000000000000000000000000000000":
@@ -182,7 +187,7 @@ def get_transaction_by_address(address,asset,page):
                 tmp_dict["blockNumber"] = r.get("blockNumber")
                 tmp_dict["blockTime"] = r.get("timeStamp")
                 tmp_dict["asset"] = "0x00000000000000000000000000000000000000"
-                tmp_dict["txReceiptStatus"] = r.get("txreceipt_status")
+                tmp_dict["txReceiptStatus"] = r.get("txreceipt_status") if r.get("txreceipt_status")!="0" else "-1"
                 tmp_list_0x.append(tmp_dict)
 
         if asset == "0x00000000000000000000000000000000000000":
