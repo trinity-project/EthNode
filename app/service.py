@@ -89,7 +89,7 @@ def get_token_holding(address):
 
 
     task_result = gevent.joinall(task_list)
-    task_result_0x = gevent.joinall([gevent.spawn(_get_balance,address,"0x")])
+    task_result_0x = gevent.joinall([gevent.spawn(get_balance,address,"0x")])
     asset_dict = {}
     for task in task_result:
         asset_dict.update(task.value)
