@@ -42,10 +42,7 @@ def get_token_holding(address):
     address = address.lower()
     return service.get_token_holding(address)
 
-@jsonrpc.method("getTokenHolding_2")
-def get_token_holding_2(address):
-    address = address.lower()
-    return service.get_token_holding_2(address)
+
 
 @jsonrpc.method("getTransactionByAddress")
 def get_transaction_by_address(address,asset,page=1):

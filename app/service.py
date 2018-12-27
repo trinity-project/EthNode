@@ -114,25 +114,6 @@ def get_token_holding(address):
     return list(res)
 
 
-def get_token_holding_2(address):
-    asset_list = mongo_client.get_token_holding(address)
-    task_list = []
-    res = deque([])
-    for asset_info in asset_list:
-        task_list.append(gevent.spawn(get_balance,address,asset_info.get("tokenAddress")))
-
-    task_result = gevent.joinall(task_list)
-
-    for task,asset_info in zip(task_result,asset_list):
-        balance = task.value
-        # if balance == 0:
-        #     continue
-        asset_info["balance"] = balance
-        if asset_info.get("tokenIcon"):
-            res.appendleft(asset_info)
-        else:
-            res.append(asset_info)
-    return list(res)
 
 
 def get_transaction_by_address(address,asset,page):
