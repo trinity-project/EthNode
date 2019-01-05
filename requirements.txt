@@ -42,7 +42,7 @@ pysha3==1.0.2
 PyYAML==3.13
 redis==2.10.6
 repoze.lru==0.7
-requests==2.19.1
+requests>=2.20.0
 rlp==1.0.1
 scrypt==0.8.6
 semantic-version==2.6.0
