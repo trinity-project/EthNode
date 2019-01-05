@@ -1,11 +1,12 @@
 import time
 from collections import deque
 
+import binascii
 import gevent
 import requests
 from decimal import Decimal
 
-from ethereum.utils import checksum_encode
+from ethereum.utils import checksum_encode, sha3
 from etherscan.accounts import Account
 
 from app import app_logger
@@ -33,7 +34,9 @@ def construct_tx(addressFrom,addressTo,value,assetId,gasPrice):
     else:
         unsigned_tx_data= eth_client.construct_erc20_tx(addressFrom, addressTo, value,assetId, gasPrice)
 
-    return unsigned_tx_data
+    before_hash = sha3(unsigned_tx_data)
+    before_hash = binascii.hexlify(before_hash).decode()
+    return dict(txData=unsigned_tx_data,txHash=before_hash)
 
 
 
