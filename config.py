@@ -10,14 +10,14 @@ class SettingHolder(object):
 
     def setup_mainnet(self):
         # self.ETH_URL = "https://mainnet.infura.io/pZc5ZTRYM8wYfRPtoQal"
-        # self.ETH_URL = "http://127.0.0.1:8545"
-        self.ETH_URL = "http://47.91.249.76:8545"
+        self.ETH_URL = "http://127.0.0.1:8545"
+        # self.ETH_URL = "http://47.91.249.76:8545"
         self.ETHSCAN_API_PREFIX = "https://api.etherscan.io/api?"
 
 
         self.API_KEY = "FQBNNPZ4H5ZEWDYPPGGS5QR4J9DG5FNHCM"
 
-        self.CONTRACT_ADDRESS = "0xc9ad73d11d272c95b5a2c48780a55b6b3c726cac"
+        self.CONTRACT_ADDRESS = "0x67fba6d5eed1f20f8454ab93aed3a010f36f549d"
         self.FUNDING_ADDRESS = "0x0d7c7d0e76e25290abb5bfec7d1adff36befb09f"
         self.PRIVTKEY = ENVIRON.get("PRIVTKEY")
         self.PASSWORD_HASH = "$2b$10$F7GVmj.eahbHMIUjOxooYuLBMqZaIGcJZ7KxufGfbxwGTErKCzNQm"
