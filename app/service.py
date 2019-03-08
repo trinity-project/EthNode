@@ -210,7 +210,7 @@ def get_token_info(queryWord):
         {
             "tokenAddress":q.get("address"),
             "tokenDecimal":"0" if q.get("decimals") is None else str(q.get("decimals")),
-            "tokenIcon":q.get("icon") or "http://appserver.zjrs.ltd/ETH.png",
+            "tokenIcon":q.get("icon"),
             "tokenName":q.get("name"),
             "tokenSynbol":q.get("symbol"),
             "tokenType":"ERC-20" if q.get("is_erc20") else "ERC-721"
