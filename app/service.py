@@ -291,9 +291,8 @@ def get_tokens_of_owner(contract,owner,page):
         } for token in tokens]
 
     else:
+        app_logger.info("{}{}{}".format(contract,owner,page))
         tokens = get_tokens_from_ethscan(contract,owner,page)
-        app_logger.info(contract,owner,page)
-        app_logger.info(tokens)
         tokens = [{
             "tokenId":str(token),
             "data":{}
