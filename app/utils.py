@@ -5,7 +5,7 @@ import requests
 from flask import jsonify
 from etherscan.contracts import Contract
 
-from config import setting
+# from config import setting
 
 
 def response_wrap(func):
@@ -81,3 +81,7 @@ def get_tokens_from_ethscan(contract_address,owner,page):
     html = requests.get("https://etherscan.io/token/generic-tokenholder-inventory?contractAddress={}&a={}&p={}".format(contract_address,owner,page)).content.decode()
     tokens = re.findall("<tr><td><a href='/token/.*?target='_parent'>(.*?)</a></td><td></td></tr>", html)
     return tokens
+
+x=get_tokens_from_ethscan("0xbbab7770066b2a3ae4862c2892e672e8adaf428e","0x8d65601c459f2ce8b0244f5557f1b2b3d42c26ab",1)
+for i in x:
+    print(i)
