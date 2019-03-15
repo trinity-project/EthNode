@@ -1,3 +1,4 @@
+import re
 from functools import wraps
 from enum import Enum
 import requests
@@ -75,3 +76,8 @@ def get_tokens_from_open_sea(contract,owner,page):
     except Exception as e:
         return []
 
+
+def get_tokens_from_ethscan(contract_address,owner,page):
+    html = requests.get("https://etherscan.io/token/generic-tokenholder-inventory?contractAddress={}&a={}&p={}".format(contract_address,owner,page)).content.decode()
+    tokens = re.findall("<tr><td><a href='/token/.*?target='_parent'>(.*?)</a></td><td></td></tr>", html)
+    return tokens

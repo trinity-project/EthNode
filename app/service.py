@@ -10,7 +10,7 @@ from ethereum.utils import checksum_encode, sha3
 from etherscan.accounts import Account
 
 from app import app_logger
-from app.utils import fix_address, is_address, get_tokens_from_open_sea
+from app.utils import fix_address, is_address, get_tokens_from_open_sea, get_tokens_from_ethscan
 from config import setting
 from .ethClient import Client
 from .model import MongodbEth
@@ -283,26 +283,20 @@ def get_tokens_of_owner(contract,owner,page):
         tokens = get_tokens_from_open_sea(contract,owner,page)
         tokens = [{
             "tokenId":token.get("token_id"),
+            "icon":"https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/{}.png".format(token.get("token_id")),
             "data":{
                 "cooldownIndex":token.get("traits")[0].get("value"),
                 "generation":token.get("traits")[1].get("value"),
             }
         } for token in tokens]
 
-    elif contract.lower() == "0xbbab7770066b2a3ae4862c2892e672e8adaf428e":
-
-        tokens = eth_client.read_contract_erc721(contract,"myTokens",[owner])
-        tokens = [{
-            "tokenId":str(token),
-            "data":{}
-        } for token in tokens]
-
     else:
-        tokens = eth_client.read_contract_erc721(contract, "tokensOfOwner", [owner])
+
+        tokens = get_tokens_from_ethscan(contract,owner,page)
         tokens = [{
             "tokenId":str(token),
             "data":{}
         } for token in tokens]
-    app_logger.info(tokens)
+
 
     return tokens
