@@ -3,7 +3,6 @@
 import json
 from decimal import Decimal
 
-from ethereum.utils import checksum_encode
 from pymongo import MongoClient
 import time
 import requests
@@ -158,8 +157,6 @@ while True:
                                                                         tmp_dict["addressTo"], tmp_dict["value"],
                                                                         tmp_dict["asset"])
 
-                            tmp_dict["addressFrom"] = checksum_encode(tmp_dict["addressFrom"])
-                            tmp_dict["addressTo"] = checksum_encode(tmp_dict["addressTo"])
                             mongo_client.insert_transfer_record(tmp_dict)
 
 

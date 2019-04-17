@@ -2,7 +2,6 @@
 # coding=utf-8
 import json
 
-from ethereum.utils import checksum_encode
 from etherscan.accounts import Account
 from pymongo import MongoClient
 import time
@@ -92,8 +91,6 @@ while True:
             tmp_dict["txMd5"]= md5_for_transfer_record(tmp_dict["txId"],tmp_dict["addressFrom"],
                                                        tmp_dict["addressTo"],tmp_dict["value"],tmp_dict["asset"])
 
-            tmp_dict["addressFrom"] = checksum_encode(tmp_dict["addressFrom"])
-            tmp_dict["addressTo"] = checksum_encode(tmp_dict["addressTo"])
             mongo_client.insert_transfer_record(tmp_dict)
 
 
