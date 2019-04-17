@@ -131,6 +131,8 @@ def get_transaction_by_address(address,asset,page):
     for tx in txs:
         if tx["txReceiptStatus"] == "0":
             tx["txReceiptStatus"] = "-1"
+        tx["addressFrom"] = checksum_encode(tx["addressFrom"])
+        tx["addressTo"] = checksum_encode(tx["addressTo"])
         new_txs.append(tx)
 
     if page != 1:
@@ -155,8 +157,8 @@ def get_transaction_by_address(address,asset,page):
             if r.get("to") == asset and input_data[:10] == "0xa9059cbb":
 
 
-                tmp_dict["addressFrom"] = r.get("from")
-                tmp_dict["addressTo"] = input_data[34:74]
+                tmp_dict["addressFrom"] = checksum_encode(r.get("from"))
+                tmp_dict["addressTo"] = checksum_encode(input_data[34:74])
                 tmp_dict["value"] = str(int(input_data[74:],16))
                 tmp_dict["txId"] = r.get("hash")
                 tmp_dict["gasUsed"] = r.get("gasUsed")
@@ -169,8 +171,8 @@ def get_transaction_by_address(address,asset,page):
                 tmp_list_contract.append(tmp_dict)
 
             if input_data == "0x" and asset == "0x00000000000000000000000000000000000000":
-                tmp_dict["addressFrom"] = r.get("from")
-                tmp_dict["addressTo"] = r.get("to")
+                tmp_dict["addressFrom"] = checksum_encode(r.get("from"))
+                tmp_dict["addressTo"] = checksum_encode(r.get("to"))
                 tmp_dict["value"] = r.get("value")
                 tmp_dict["txId"] = r.get("hash")
                 tmp_dict["gasUsed"] = r.get("gasUsed")
