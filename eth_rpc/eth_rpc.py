@@ -270,12 +270,12 @@ class Client(object):
 
         return binascii.hexlify(unsigned_tx).decode()
 
-    def read_contract(self, contractAddress, method, args):
+    def read_contract(self, contractAddress, method, args,abi):
         '''
         读取合约状态
         '''
         contractAddress = checksum_encode(contractAddress)
-        contract_instance = self.get_contract_instance(contractAddress)
+        contract_instance = self.get_contract_instance(contractAddress,abi)
         if not contract_instance:
             return None
 
