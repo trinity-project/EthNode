@@ -224,12 +224,12 @@ class Client(object):
                 bytecode += args_abi
         return bytecode
 
-    def get_contract_instance(self, contract_address):
+    def get_contract_instance(self, contract_address,abi):
         '''
         获取合约实例
         '''
         contract_address = checksum_encode(contract_address)
-        contract = self.web3.eth.contract(address=contract_address, abi=ERC20_ABI)
+        contract = self.web3.eth.contract(address=contract_address, abi=abi)
         return contract
 
     def get_contract_instance_erc721(self, contract_address):
@@ -240,21 +240,23 @@ class Client(object):
         contract = self.web3.eth.contract(address=contract_address, abi=ERC721_ABI)
         return contract
 
-    def write_contract(self, invoker, contractAddress, method, args,gasPrice=None):
+    def write_contract(self, invoker, contractAddress, method, args,value,gas_limit=200000,gasPrice=None,abi=ERC20_ABI):
         '''
         调用合约里实现的方法
         '''
         invoker = checksum_encode(invoker)
         contractAddress = checksum_encode(contractAddress)
-        contract_instance = self.get_contract_instance(contractAddress)
+        contract_instance = self.get_contract_instance(contractAddress,abi)
         if not contract_instance:
             return None
+        nounce = self.web3.eth.getTransactionCount(invoker)
         tx_dict = contract_instance.functions[method](*args).buildTransaction({
             'gasPrice': self.web3.eth.gasPrice if not gasPrice else gasPrice,
             'from':invoker,
-            'nonce': self.web3.eth.getTransactionCount(invoker),
+            'nonce': nounce,
+            "gas":gas_limit,
+            "value":value
         })
-
         tx = Transaction(
             nonce=tx_dict.get("nonce"),
             gasprice=tx_dict.get("gasPrice"),
