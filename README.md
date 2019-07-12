@@ -9,7 +9,7 @@
     
 - 在根目录下创建log文件夹
 - 设置环境变量 CURRENT_ENVIRON  ,  PRIVTKEY , REMOTE_ADDRESS
-- 运行2个脚本：
+- 运行个脚本：
    + store_tx_from_etherscan.py
    通过etherscan提供的获取交易记录的接口将交易记录存到本地Mongodb
    + store_tx.py
@@ -17,5 +17,9 @@
     
    + runserver.py
    启动  rpc 服务
-   
-   
+
+   + extract_token_from_rpc
+   解析 token ,数据入库
+
+      + extract_token_holding
+   解析 地址持有 token 的种类 ,数据入库
